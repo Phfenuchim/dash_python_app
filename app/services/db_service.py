@@ -21,6 +21,6 @@ def get_db_connection():
         return None
     
 import bcrypt
-
+print("substituir senha no init.sql para testar login com o hash(Login: joao@email.com, senha: senha1234)")
 hash = bcrypt.hashpw("senha1234".encode(), bcrypt.gensalt())
 print(hash.decode())  # Copie este resultado

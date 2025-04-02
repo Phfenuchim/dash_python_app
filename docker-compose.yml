@@ -1,0 +1,34 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "YourStrong@Passw0rd"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    volumes:
+      - sql_data:/var/opt/mssql
+    restart: always
+
+  sql-init:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      - sqlserver
+    volumes:
+      - ./init.sql:/init.sql
+    entrypoint: >
+      bash -c "
+        echo 'Aguardando SQL Server iniciar...';
+        for i in {1..30}; do
+          /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P 'YourStrong@Passw0rd' -Q 'SELECT 1' && break;
+          echo 'Esperando...';
+          sleep 3;
+        done;
+        /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P 'YourStrong@Passw0rd' -i /init.sql;
+        echo 'Script executado com sucesso!'
+      "
+
+volumes:
+  sql_data:

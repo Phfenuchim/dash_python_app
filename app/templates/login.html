@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<main class="container">
+  <h2>Login</h2>
+  <form method="POST" action="/login" style="max-width: 400px; margin: auto;">
+    <label for="username">Usuário (Email):</label><br>
+    <input type="text" id="username" name="username" required style="width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc;"><br>
+
+    <label for="password">Senha:</label><br>
+    <input type="password" id="password" name="password" required style="width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc;"><br>
+
+    <input type="submit" value="Entrar" style="width: 100%; padding: 12px; background-color: #007aff; color: white; border: none; border-radius: 8px; font-size: 16px;">
+  </form>
+  {% if erro %}
+    <p style="color: red; text-align: center; margin-top: 20px;">{{ erro }}</p>
+  {% endif %}
+</main>
+{% endblock %}
